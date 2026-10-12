@@ -7,8 +7,8 @@ Static HTML/CSS portfolio. Preview: `python3 -m http.server 4173 --directory dis
 ## Before public release
 
 - Add the user's supplied photograph to About with appropriate alt text.
-- Confirm preferred public email, education status/dates, work titles/dates, and project contribution attribution.
-- Current background page intentionally omits disputed employment claims; its PDF action opens the browser print dialog. The existing application resume contains provisional information and is not distributed by this site.
+- Experience titles, dates, and education follow the latest user-supplied resume. Project contribution attribution remains a separate review item.
+- The resume page embeds the supplied PDF and offers direct viewing and download. Timeline summaries use the five roles in that PDF.
 - Project visuals are original CSS concept illustrations, explicitly labeled; replace with approved real screenshots if desired.
 - Google Fonts is used with system fallbacks. All content and navigation work without JavaScript; only copy-email uses JavaScript.
 
