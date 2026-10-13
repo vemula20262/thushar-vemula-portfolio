@@ -149,3 +149,9 @@ Review screenshots in parent `review/`:
 - `journey-redesign.png`: earlier winding vertical map.
 
 A handoff chat should first read this file, inspect git status/remotes/current branch, fetch GitHub, and understand the user's new request before editing. Keep the live URL and existing deployment project. Continue in small reviewable changes; report what shipped and any real limitation.
+
+## Latest follow-up: portrait placement + experience proposal
+
+The user now dislikes the static pins and crowded experience cards. Approved photo behavior: photo initially absent, slides/settles onto a board when About scrolls into view, then a dimensional tack presses down with a tiny shaded puncture. No hands. Implemented via `.portrait-stage`, custom `portrait-tack.svg`, CSS staged animations and a one-time IntersectionObserver. Reduced motion and no-JS preserve a visible photograph. Original supplied image is unchanged.
+
+Experience was explicitly **not** redesigned in this follow-up: user requested ideas first. See `EXPERIENCE_OPTIONS.md` for four proposals and verified references. Recommendation is a compact map with logo milestones and one large detail panel, removing the five crowded cards. Await user selection before implementing.
