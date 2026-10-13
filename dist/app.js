@@ -8,3 +8,17 @@ copyButton?.addEventListener('click', async () => {
     status.textContent = 'vemulathusharreddy@gmail.com';
   }
 });
+
+const contactDialog = document.querySelector('#contact-dialog');
+document.querySelectorAll('[data-contact-open]').forEach(link => {
+  link.addEventListener('click', event => {
+    if (!contactDialog?.showModal) return;
+    event.preventDefault();
+    contactDialog.showModal();
+  });
+});
+contactDialog?.querySelector('.dialog-close')?.addEventListener('click', () => contactDialog.close());
+contactDialog?.addEventListener('click', event => {
+  const rect = contactDialog.getBoundingClientRect();
+  if (event.target === contactDialog && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) contactDialog.close();
+});
