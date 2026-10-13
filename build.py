@@ -1,12 +1,16 @@
 from pathlib import Path
 import json
 P=Path(__file__).parent; D=P/'dist'; D.mkdir(exist_ok=True)
+SITE_URL='https://thushar-reddy-vemula.vercel.app'
 projects=[
  dict(slug='forma',name='Forma',label='LOCAL AI · HACKATHON PROTOTYPE',title='A little less clicking.\nA little more doing.',desc='A local voice agent for the everyday tasks between your apps.',color='sage',stack='React · FastAPI · LangGraph · Ollama',repo='Multi-App-AI-Agent',problem='Everyday work crosses apps: drafting an email, proposing a meeting, or making sense of a browser page. Forma explores a voice-first way to connect those tasks while keeping the user in control.',built='The prototype connects a React interface to FastAPI and a LangGraph workflow. Ollama handles local inference, whisper.cpp transcribes audio, and Playwright supports restricted browser-page reading.',decision='Permission is part of the workflow. Browser-read approvals are tied to a session, URL, expiration, and a single-use interrupt identifier. Clarification and cancellation are explicit states, rather than assumptions hidden inside a prompt.',outcome='The documented implementation supports voice and text input, email drafts, meeting proposals, and page summaries. Per-session locking and temporary audio processing help keep concurrent interactions isolated.',limit='Hackathon prototype. This is a description of the documented implementation, not a claim of production deployment or broad task reliability.',flow=['Voice / text','LangGraph','Approval','Local tools']),
  dict(slug='elastic',name='Elastic Vision',label='AWS · CLOUD COMPUTING COURSEWORK',title='More requests.\nRoom to grow.',desc='Queue-driven face recognition, built to scale with demand.',color='lavender',stack='Python · EC2 · SQS · S3 · DynamoDB',repo='CSE546-Project1-Face-Recognition',problem='Image inference workloads can arrive in bursts. The system needs to match each response to its request while managing the compute capacity behind the queue.',built='A Flask service stores uploads in S3, checks DynamoDB for cached predictions, and routes inference through paired SQS queues. EC2 workers load MTCNN and InceptionResnetV1 once per worker.',decision='The controller scales from zero to fifteen workers using queue depth and tracks both pending and running instances. A shared response poller uses request-specific events to match concurrent responses.',outcome='Recorded course tests report 100 correct predictions across 100 concurrent requests, with average response times of 0.32 seconds for cold-cache and 11 milliseconds for warm-cache requests.',limit='Spring 2026 coursework. These are repository-reported course results, not independently repeated benchmarks or production service guarantees. Elastic Vision is the portfolio display name for Elastic Face Recognition on AWS.',flow=['Upload','S3 + cache','SQS','EC2 workers']),
  dict(slug='interviewcoach',name='InterviewCoach',label='VOICE AI · HACKASU 2026',title='Practice the answer.\nFind your voice.',desc='An AI interview practice application with feedback you can revisit.',color='peach',stack='Next.js · TypeScript · Gemini · PostgreSQL',repo='InterviewCoach-AI',problem='Interview preparation is more useful when a candidate can practice speaking, review specific feedback, and return to previous sessions.',built='The application combines resume ingestion, company-specific questions, real-time voice transcription, and a Three.js interview scene. Session history and feedback are persisted in PostgreSQL.',decision='The feedback workflow separates two tasks: Gemini analyzes STAR structure and delivery, while Claude supplies conversational coaching and follow-up questions. Semantic question matching uses pgvector.',outcome='Documented features include sentence-level feedback, weak-area tracking, Google OAuth, and session history. The case study focuses on the application architecture; detailed individual contribution attribution is still being reviewed.',limit='Hackathon application. No hiring-outcome improvement or model-feedback accuracy is claimed. Project implementation is documented in the linked repository.',flow=['Resume','Voice session','Dual-model feedback','Session history'])]
 logo='<svg viewBox="0 0 48 48" aria-hidden="true"><path d="M7 12h25M19 12v27M26 22l7 17 9-27" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-def head(title,desc):return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><meta name="description" content="{desc}"><meta name="theme-color" content="#f7f6f0"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a class="brand" href="/" aria-label="Thushar Reddy Vemula home">{logo}<span>Thushar.</span></a><nav aria-label="Main navigation"><a href="/#about">About</a><a href="/#experience">Experience</a><a href="/#work">Work</a><a href="/resume.html">Resume</a><a class="contact-nav" href="/#contact">Let’s talk </a></nav></header>'''
+OG_IMAGE=SITE_URL+'/assets/thushar-portrait.jpg'
+def head(title,desc,page_path='/'):
+ canonical=SITE_URL+page_path
+ return f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{title}</title><meta name="description" content="{desc}"><meta name="theme-color" content="#f7f6f0"><link rel="canonical" href="{canonical}"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:type" content="website"><meta property="og:url" content="{canonical}"><meta property="og:image" content="{OG_IMAGE}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:site_name" content="Thushar Reddy Vemula"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{title}"><meta name="twitter:description" content="{desc}"><meta name="twitter:image" content="{OG_IMAGE}"><link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="/style.css"></head><body><a class="skip" href="#main">Skip to content</a><header><a class="brand" href="/" aria-label="Thushar Reddy Vemula home">{logo}<span>Thushar.</span></a><nav aria-label="Main navigation"><a href="/#about">About</a><a href="/#experience">Experience</a><a href="/#work">Work</a><a href="/resume.html">Resume</a><a class="contact-nav" href="/#contact">Let's talk </a></nav></header>'''
 def foot():return '''<footer class="site-footer"><div class="footer-grid"><section class="footer-intro"><h2>Thushar Reddy Vemula’s Portfolio</h2><p>Thanks for stopping by. I build thoughtful AI applications and the systems behind them.</p><p>Have an idea or an opportunity?<br>I’d love to hear from you.</p></section><nav class="footer-nav" aria-label="Footer navigation"><h2>Quick links</h2><a href="/">Home</a><a href="/#about">About</a><a href="/#experience">Experience</a><a href="/#work">Projects</a><a href="/#skills">Skills</a><a href="/resume.html">Resume</a><a href="/#contact">Contact</a></nav><section class="footer-contact"><h2>Let’s connect</h2><dl class="contact-details"><div><dt>Email</dt><dd><a href="mailto:vemulathusharreddy@gmail.com">vemulathusharreddy@gmail.com</a></dd></div><div><dt>Phone</dt><dd><a href="tel:+16232399720">+1 (623) 239-9720</a></dd></div><div><dt>Based in</dt><dd>Tempe, Arizona, USA</dd></div></dl><div class="footer-socials"><a href="https://www.linkedin.com/in/thusharvemula" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM3.3 9h3.4v12H3.3V9Zm5.5 0H12v1.6C13 9.2 14.1 8.7 15.7 8.7c3.4 0 4.3 2.1 4.3 5.4V21h-3.4v-6.1c0-1.8-.1-3.2-2-3.2-2 0-2.4 1.5-2.4 3.1V21H8.8V9Z"/></svg></a><a href="https://github.com/vemula20262" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.86c-2.78.6-3.37-1.18-3.37-1.18-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.99 1.03-2.69-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.03A9.58 9.58 0 0 1 12 6.82c.85 0 1.71.11 2.51.34 1.91-1.3 2.75-1.03 2.75-1.03.55 1.38.2 2.4.1 2.65.64.7 1.03 1.6 1.03 2.69 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.76c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg></a><a href="mailto:vemulathusharreddy@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m4 7 8 6 8-6"/></svg></a></div></section></div><div class="footer-bottom"><span>© 2026 Thushar Reddy Vemula</span><span>Built with curiosity. Made to be useful.</span><a href="#main">Back to top</a></div></footer><script src="/app.js" defer></script></body></html>'''
 def art(p):
  if p['slug']=='forma': return '<div class="forma-art"><div class="orb"><span>f</span></div><div class="prompt"><span class="tiny">FORMA / LOCAL ASSISTANT</span><p>What can I take off your mind?</p><div class="wave">'+''.join(f'<i style="--h:{h}px"></i>' for h in [10,18,30,15,37,49,26,39,21,12,29,42,23,15,8])+'</div><div class="prompt-bottom"><span>Voice, with you in control.</span></div></div></div>'
@@ -64,3 +68,116 @@ for page in D.rglob('*.html'):
         return '<a'+attrs+'>'+body+'</a>'
     markup=re.sub(r'<a([^>]+)>(.*?)</a>',annotate,markup,flags=re.S)
     page.write_text(markup)
+
+# ── SEO: robots.txt ──
+(D/'robots.txt').write_text(f'''User-agent: *
+Allow: /
+
+Sitemap: {SITE_URL}/sitemap.xml
+''')
+
+# ── SEO: sitemap.xml ──
+from datetime import date
+today = date.today().isoformat()
+sitemap_urls = [
+    ('/', '1.0', 'weekly'),
+    ('/resume.html', '0.8', 'monthly'),
+]
+for p in projects:
+    sitemap_urls.append((f'/projects/{p["slug"]}/', '0.9', 'monthly'))
+sitemap_entries = ''
+for path, priority, freq in sitemap_urls:
+    sitemap_entries += f'  <url><loc>{SITE_URL}{path}</loc><lastmod>{today}</lastmod><changefreq>{freq}</changefreq><priority>{priority}</priority></url>\n'
+(D/'sitemap.xml').write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+{sitemap_entries}</urlset>
+''')
+
+# ── SEO: JSON-LD structured data (inject into homepage) ──
+jsonld_person = json.dumps({
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Thushar Reddy Vemula",
+    "alternateName": [
+        "Tushar Reddy Vemula",
+        "Tushar Reddy",
+        "Thushar Reddy",
+        "Vemula Thushar Reddy"
+    ],
+    "url": SITE_URL + "/",
+    "image": SITE_URL + "/assets/thushar-portrait.jpg",
+    "jobTitle": "Software Engineer",
+    "description": "Software Engineer specializing in full-stack applications, backend systems, cloud computing, and applied AI. Currently pursuing M.S. in Computer Science at Arizona State University.",
+    "email": "vemulathusharreddy@gmail.com",
+    "telephone": "+1-623-239-9720",
+    "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Tempe",
+        "addressRegion": "AZ",
+        "addressCountry": "US"
+    },
+    "alumniOf": [
+        {"@type": "CollegeOrUniversity", "name": "Arizona State University", "url": "https://www.asu.edu/"},
+        {"@type": "CollegeOrUniversity", "name": "IIIT Delhi", "url": "https://iiitd.ac.in/"}
+    ],
+    "worksFor": {"@type": "CollegeOrUniversity", "name": "Arizona State University"},
+    "sameAs": [
+        "https://www.linkedin.com/in/thusharvemula",
+        "https://github.com/vemula20262"
+    ],
+    "knowsAbout": [
+        "Python", "TypeScript", "JavaScript", "Java", "Go", "SQL",
+        "React", "Next.js", "Django", "FastAPI", "Flask",
+        "AWS", "Docker", "LangGraph", "LangChain", "PyTorch",
+        "PostgreSQL", "MongoDB", "Redis", "DynamoDB"
+    ]
+}, separators=(',', ':'))
+
+jsonld_website = json.dumps({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Thushar Reddy Vemula | Portfolio",
+    "alternateName": "Tushar Reddy Portfolio",
+    "url": SITE_URL + "/",
+    "description": "Software engineering, thoughtful AI applications, and the systems behind them. Explore selected work by Thushar Reddy Vemula."
+}, separators=(',', ':'))
+
+index_html = (D/'index.html').read_text()
+jsonld_tags = f'<script type="application/ld+json">{jsonld_person}</script><script type="application/ld+json">{jsonld_website}</script>'
+index_html = index_html.replace('</head>', jsonld_tags + '</head>', 1)
+(D/'index.html').write_text(index_html)
+
+# ── SEO: Fix canonical URLs on project and resume pages ──
+for p in projects:
+    proj_path = D / 'projects' / p['slug'] / 'index.html'
+    html = proj_path.read_text()
+    # Update canonical from default "/" to the correct project path
+    correct_canonical = f'{SITE_URL}/projects/{p["slug"]}/'
+    html = html.replace(
+        f'<link rel="canonical" href="{SITE_URL}/">',
+        f'<link rel="canonical" href="{correct_canonical}">',
+        1
+    )
+    html = html.replace(
+        f'<meta property="og:url" content="{SITE_URL}/">',
+        f'<meta property="og:url" content="{correct_canonical}">',
+        1
+    )
+    proj_path.write_text(html)
+
+resume_path = D / 'resume.html'
+resume_html = resume_path.read_text()
+resume_canonical = f'{SITE_URL}/resume.html'
+resume_html = resume_html.replace(
+    f'<link rel="canonical" href="{SITE_URL}/">',
+    f'<link rel="canonical" href="{resume_canonical}">',
+    1
+)
+resume_html = resume_html.replace(
+    f'<meta property="og:url" content="{SITE_URL}/">',
+    f'<meta property="og:url" content="{resume_canonical}">',
+    1
+)
+resume_path.write_text(resume_html)
+
+print('SEO: robots.txt, sitemap.xml, JSON-LD, and canonical URLs generated.')

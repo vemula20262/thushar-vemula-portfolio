@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://thushar-reddy-vemula.vercel.app/sitemap.xml
