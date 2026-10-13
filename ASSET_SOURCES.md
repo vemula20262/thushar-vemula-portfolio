@@ -5,3 +5,6 @@ IIIT Delhi: https://www.iiitd.ac.in/sites/default/files/images/logo/style1colors
 Logo guidance: https://iiitd.ac.in/about/graphic-identity/logo
 
 Experience and education now follow the resume supplied by the user on October 11, 2026. Quantified performance claims are not repeated in timeline summaries; the original PDF is provided unchanged.
+
+Invisible AI: https://www.invisible.ai/_astro/logo.DqduppY1_2qEspn.webp (official site linked from user-supplied LinkedIn page).
+SimCoach: original custom SVG monogram created for this portfolio.
