@@ -8,3 +8,7 @@ Experience and education now follow the resume supplied by the user on October 1
 
 Invisible AI: https://www.invisible.ai/_astro/logo.DqduppY1_2qEspn.webp (official site linked from user-supplied LinkedIn page).
 SimCoach: original custom SVG monogram created for this portfolio.
+
+## Horizontal experience journey
+- 3D racing car and pushpin: Microsoft Fluent Emoji, https://github.com/microsoft/fluentui-emoji (MIT). Original PNGs stored as `race-car-3d.png` and `fluent-pin-3d.png`; license included at `dist/assets/fluent-emoji-LICENSE.txt`.
+- User-supplied red pin retained as `red-pushpin.png` for easy restoration.
