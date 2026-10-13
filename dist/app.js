@@ -66,3 +66,17 @@ chapterButtons.forEach(button => button.addEventListener('click', () => {
  driveFrame = requestAnimationFrame(move);
 }));
 if (stage) { placeCar(0); new ResizeObserver(() => placeCar(position)).observe(stage); }
+
+const writtenIntro = document.querySelector('.written-intro');
+if (writtenIntro && 'IntersectionObserver' in window) {
+  const introObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+        writtenIntro.classList.add('is-writing');
+      } else if (!entry.isIntersecting) {
+        writtenIntro.classList.remove('is-writing');
+      }
+    }
+  }, { threshold: [0, 0.6] });
+  introObserver.observe(writtenIntro);
+}
