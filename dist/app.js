@@ -80,16 +80,3 @@ if (writtenIntro && 'IntersectionObserver' in window) {
   }, { threshold: [0, 0.6] });
   introObserver.observe(writtenIntro);
 }
-
-// One placement per page visit, triggered by the photo board entering view.
-const portraitStage = document.querySelector('.portrait-stage');
-if (portraitStage && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-  portraitStage.classList.add('photo-ready');
-  const photoObserver = new IntersectionObserver(entries => {
-    if (entries.some(entry => entry.isIntersecting)) {
-      portraitStage.classList.add('is-placed');
-      photoObserver.disconnect();
-    }
-  }, { threshold: 0.2 });
-  photoObserver.observe(portraitStage);
-}
