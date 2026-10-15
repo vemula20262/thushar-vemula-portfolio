@@ -40,6 +40,8 @@ assert all([hero,work,more_work,skills,experience,about,education,contact])
 main_start=home.index('<main id="main">')+len('<main id="main">')
 main_end=home.index('</main>',main_start)
 home=home[:main_start]+''.join([hero,about,experience,work,more_work,skills,education,contact])+home[main_end:]
+home = head('Thushar Reddy Vemula | Portfolio', 'Software engineering, thoughtful AI applications, and the systems behind them.') + (P/'home-content.html').read_text() + foot()
+home = home.replace('</head>', '<link rel="stylesheet" href="/portfolio-theme.css"></head>')
 (D/'index.html').write_text(home)
 for i,p in enumerate(projects):
  path=D/'projects'/p['slug'];path.mkdir(parents=True,exist_ok=True)
