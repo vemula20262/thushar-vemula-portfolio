@@ -40,7 +40,7 @@ assert all([hero,work,more_work,skills,experience,about,education,contact])
 main_start=home.index('<main id="main">')+len('<main id="main">')
 main_end=home.index('</main>',main_start)
 home=home[:main_start]+''.join([hero,about,experience,work,more_work,skills,education,contact])+home[main_end:]
-home = head('Thushar Reddy Vemula | Portfolio', 'Software engineering, thoughtful AI applications, and the systems behind them.') + (P/'home-content.html').read_text() + foot()
+home = head('Thushar Reddy Vemula | Software Engineer · Backend & AI', 'Thushar Reddy Vemula is a software engineer in Tempe, Arizona, building backend systems, full-stack applications, and applied AI projects. Explore his work and experience.') + (P/'home-content.html').read_text() + foot()
 home = home.replace('</head>', '<link rel="stylesheet" href="/portfolio-theme.css"></head>')
 (D/'index.html').write_text(home)
 for i,p in enumerate(projects):
@@ -89,7 +89,7 @@ for p in projects:
     sitemap_urls.append((f'/projects/{p["slug"]}/', '0.9', 'monthly'))
 sitemap_entries = ''
 for path, priority, freq in sitemap_urls:
-    sitemap_entries += f'  <url><loc>{SITE_URL}{path}</loc><lastmod>{today}</lastmod><changefreq>{freq}</changefreq><priority>{priority}</priority></url>\n'
+    sitemap_entries += f'  <url><loc>{SITE_URL}{path}</loc><changefreq>{freq}</changefreq><priority>{priority}</priority></url>\n'
 (D/'sitemap.xml').write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 {sitemap_entries}</urlset>
@@ -99,6 +99,7 @@ for path, priority, freq in sitemap_urls:
 jsonld_person = json.dumps({
     "@context": "https://schema.org",
     "@type": "Person",
+    "@id": SITE_URL + "/#person",
     "name": "Thushar Reddy Vemula",
     "alternateName": [
         "Tushar Reddy Vemula",
@@ -138,14 +139,24 @@ jsonld_person = json.dumps({
 jsonld_website = json.dumps({
     "@context": "https://schema.org",
     "@type": "WebSite",
+    "@id": SITE_URL + "/#website",
+    "publisher": {"@id": SITE_URL + "/#person"},
     "name": "Thushar Reddy Vemula | Portfolio",
     "alternateName": "Tushar Reddy Portfolio",
     "url": SITE_URL + "/",
     "description": "Software engineering, thoughtful AI applications, and the systems behind them. Explore selected work by Thushar Reddy Vemula."
 }, separators=(',', ':'))
 
+jsonld_profile = json.dumps({
+    "@context": "https://schema.org", "@type": "ProfilePage",
+    "@id": SITE_URL + "/#profile", "url": SITE_URL + "/",
+    "name": "Thushar Reddy Vemula — Software Engineer",
+    "mainEntity": {"@id": SITE_URL + "/#person"},
+    "isPartOf": {"@id": SITE_URL + "/#website"}
+}, separators=(',', ':'))
 index_html = (D/'index.html').read_text()
 jsonld_tags = f'<script type="application/ld+json">{jsonld_person}</script><script type="application/ld+json">{jsonld_website}</script>'
+jsonld_tags += f'<script type="application/ld+json">{jsonld_profile}</script>'
 index_html = index_html.replace('</head>', jsonld_tags + '</head>', 1)
 (D/'index.html').write_text(index_html)
 
