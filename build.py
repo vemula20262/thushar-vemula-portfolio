@@ -41,7 +41,7 @@ main_start=home.index('<main id="main">')+len('<main id="main">')
 main_end=home.index('</main>',main_start)
 home=home[:main_start]+''.join([hero,about,experience,work,more_work,skills,education,contact])+home[main_end:]
 home = head('Thushar Reddy Vemula | Software Engineer · Backend & AI', 'Thushar Reddy Vemula is a software engineer in Tempe, Arizona, building backend systems, full-stack applications, and applied AI projects. Explore his work and experience.') + (P/'home-content.html').read_text() + foot()
-home = home.replace('</head>', '<link rel="stylesheet" href="/portfolio-theme.css"></head>')
+home = home.replace('</head>', '<link rel="stylesheet" href="/portfolio-theme.css"><meta name="google-site-verification" content="2SEVJqTEPHD6s0RPgVpwUwx6wa1NyLZgy7S21W7s-hI" /></head>')
 (D/'index.html').write_text(home)
 for i,p in enumerate(projects):
  path=D/'projects'/p['slug'];path.mkdir(parents=True,exist_ok=True)
