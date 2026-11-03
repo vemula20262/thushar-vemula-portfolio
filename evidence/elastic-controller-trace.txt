@@ -1,0 +1,11 @@
+Original controller.py · local execution with simulated AWS responses
+Input: 3 queued requests, followed by 3 empty queue checks.
+
+Cycle 1: controller requested START for 15 workers
+Cycle 1: active workers = 15
+Cycle 2: active workers = 15
+Cycle 3: active workers = 15
+Cycle 4: controller requested STOP for 15 workers
+Cycle 4: active workers = 0
+
+No cloud resources launched. No inference or performance benchmark performed.

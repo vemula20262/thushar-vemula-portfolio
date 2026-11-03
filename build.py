@@ -194,3 +194,18 @@ resume_html = resume_html.replace(
 resume_path.write_text(resume_html)
 
 print('SEO: robots.txt, sitemap.xml, JSON-LD, and canonical URLs generated.')
+
+# Actual project captures and source-execution evidence, alongside architecture diagrams.
+evidence_captions = {
+ 'forma': 'Actual Forma frontend running locally. Backend not connected in this capture.',
+ 'elastic': 'Original controller executed locally with simulated AWS responses. Not a live AWS service.',
+ 'interviewcoach': 'Actual InterviewCoach landing page running locally. Shown scores are built-in sample content.'
+}
+for slug, caption in evidence_captions.items():
+ page = D/'projects'/slug/'index.html'
+ markup = page.read_text()
+ evidence = f'<figure style="margin:30px 0"><img src="/assets/{slug}-real.png" alt="{caption}" style="width:100%;height:auto;border-radius:16px" width="1280" height="720"><figcaption style="font-size:14px;margin-top:10px">{caption}</figcaption></figure>'
+ if slug == 'elastic':
+  evidence += '<p><a class="text-link" href="/demos/elastic.html">Read the controller demonstration</a></p>'
+ markup = markup.replace('<div class="case-art ', evidence + '<div class="case-art ', 1)
+ page.write_text(markup)
