@@ -12,3 +12,6 @@ SimCoach: original custom SVG monogram created for this portfolio.
 ## Horizontal experience journey
 - 3D racing car and pushpin: Microsoft Fluent Emoji, https://github.com/microsoft/fluentui-emoji (MIT). Original PNGs stored as `race-car-3d.png` and `fluent-pin-3d.png`; license included at `dist/assets/fluent-emoji-LICENSE.txt`.
 - User-supplied red pin retained as `red-pushpin.png` for easy restoration.
+
+## CityTraffic interface (November 6, 2026)
+Actual team-project screenshot, supplied by user reference to collaborator portfolio: https://pradeepreddyvv.github.io/assets/images/projects/CityTraffic%20NLQ%20and%20Analytics.jpg . Preserved without alteration. No performance claims copied. Other secondary project concept thumbnails removed in favor of text where real captures were unavailable.
