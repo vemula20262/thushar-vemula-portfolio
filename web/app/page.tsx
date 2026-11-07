@@ -1,5 +1,5 @@
 import Header from "@/components/Header";
-import Terminal from "@/components/Terminal";
+import Portrait from "@/components/Portrait";
 import Reveal from "@/components/Reveal";
 import ProjectCard from "@/components/ProjectCard";
 import { featured, more, roles, stackGroups, marqueeA, marqueeB, techLabel, profile } from "@/lib/data";
@@ -58,20 +58,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="portrait-stage">
-                <div className="portrait-box">
-                  <div className="portrait-frame">
-                    <div className="portrait-img">
-                      <img
-                        src="/assets/thushar-portrait-900.jpg"
-                        alt="Thushar Reddy Vemula smiling in a light blue shirt"
-                        width={900}
-                        height={900}
-                        fetchPriority="high"
-                      />
-                    </div>
-                  </div>
-                  <Terminal />
-                </div>
+                <Portrait />
               </div>
             </div>
             <Reveal className="card stat stat-blue" delay={0.05}>

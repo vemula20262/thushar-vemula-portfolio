@@ -1,75 +1,79 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const LINES = [
-  { cmd: "whoami", out: "Thushar" },
-  { cmd: "focus", out: "backend · applied AI" },
-  { cmd: "status", out: "M.S. CS @ ASU ’27" },
+const SCRIPT = [
+  { cmd: "whoami", out: "Thushar Reddy Vemula" },
+  { cmd: "cat focus.txt", out: "backend · applied AI · agents" },
+  { cmd: "status", out: "M.S. CS @ ASU, May 2027" },
+  { cmd: "./build --what-next", out: "building what’s next", spin: true },
 ];
-const LAST = "./build --what-next";
+const SPIN = ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"];
+
+type Phase = "cmd" | "out" | "hold" | "erase";
 
 export default function Terminal() {
-  // step counts typed characters across the whole script; -1 means "show everything" (no JS / reduced motion)
-  const script = LINES.map((l) => l.cmd).concat(LAST);
-  const total = script.reduce((n, s) => n + s.length, 0);
-  const [typed, setTyped] = useState(-1);
+  const [i, setI] = useState(0);
+  const [phase, setPhase] = useState<Phase>("hold");
+  const [n, setN] = useState(SCRIPT[0].cmd.length);
+  const [m, setM] = useState(SCRIPT[0].out.length);
+  const [spin, setSpin] = useState(0);
 
+  // typing state machine: type the command, type its answer, hold, erase, next
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    setTyped(0);
-    let n = 0;
-    let timer: ReturnType<typeof setTimeout>;
-    const tick = () => {
-      n += 1;
-      setTyped(n);
-      if (n < total) {
-        // pause a little at the end of each command so its answer can land
-        let acc = 0;
-        let pause = false;
-        for (const s of script) {
-          acc += s.length;
-          if (n === acc) pause = true;
-        }
-        timer = setTimeout(tick, pause ? 520 : 55 + Math.random() * 45);
-      }
-    };
-    timer = setTimeout(tick, 600);
-    return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    const step = SCRIPT[i];
+    let t: ReturnType<typeof setTimeout>;
+    if (phase === "cmd") {
+      if (n < step.cmd.length) t = setTimeout(() => setN(n + 1), 70 + Math.random() * 60);
+      else t = setTimeout(() => setPhase("out"), 320);
+    } else if (phase === "out") {
+      if (m < step.out.length) t = setTimeout(() => setM(m + 1), 28);
+      else t = setTimeout(() => setPhase("hold"), 10);
+    } else if (phase === "hold") {
+      t = setTimeout(() => setPhase("erase"), step.spin ? 3200 : 1800);
+    } else {
+      if (m > 0) t = setTimeout(() => setM(Math.max(0, m - 3)), 14);
+      else if (n > 0) t = setTimeout(() => setN(n - 1), 22);
+      else
+        t = setTimeout(() => {
+          setI((i + 1) % SCRIPT.length);
+          setPhase("cmd");
+        }, 200);
+    }
+    return () => clearTimeout(t);
+  }, [i, phase, n, m]);
+
+  useEffect(() => {
+    const id = setInterval(() => setSpin((s) => (s + 1) % SPIN.length), 90);
+    return () => clearInterval(id);
   }, []);
 
-  const all = typed < 0;
-  let remaining = all ? Infinity : typed;
-  const rows = script.map((s, i) => {
-    const shown = Math.max(0, Math.min(s.length, remaining));
-    const done = shown === s.length;
-    const started = remaining > 0 || all;
-    remaining -= s.length;
-    return { text: s.slice(0, shown), done, started, i };
-  });
-  const activeRow = all ? script.length - 1 : rows.findIndex((r) => !r.done);
-  const caretRow = activeRow === -1 ? script.length - 1 : activeRow;
-
+  const step = SCRIPT[i];
+  const typingCmd = phase === "cmd";
   return (
-    <div className="terminal" role="img" aria-label="Terminal: whoami Thushar, focus backend and applied AI, status M.S. CS at ASU 2027">
+    <div className="terminal" role="img" aria-label="Terminal showing: Thushar Reddy Vemula, backend and applied AI, M.S. CS at ASU, May 2027">
       <div className="term-bar" aria-hidden="true">
         <span className="term-dot" style={{ background: "#FF6B5A" }} />
         <span className="term-dot" style={{ background: "#FFC83D" }} />
         <span className="term-dot" style={{ background: "#D4FF3A" }} />
         <span className="term-title">thushar@asu: ~</span>
+        <span className="term-step">{i + 1}/{SCRIPT.length}</span>
       </div>
       <div className="term-body" aria-hidden="true">
-        {rows.map((r) =>
-          r.started || r.i === 0 ? (
-            <div key={r.i}>
-              <span className="p">$</span> {r.text}
-              {r.done && r.i < LINES.length && (
-                <span className="out"> → {LINES[r.i].out}</span>
-              )}
-              {r.i === caretRow && <span className="caret p">▌</span>}
-            </div>
-          ) : null
-        )}
+        <div>
+          <span className="p">$</span> {step.cmd.slice(0, n)}
+          {(typingCmd || phase === "erase") && <span className="caret p">▌</span>}
+        </div>
+        <div className="out">
+          {m > 0 && (
+            <>
+              {step.spin && phase !== "erase" && <span className="p">{SPIN[spin]} </span>}
+              {!step.spin && <span className="p">→ </span>}
+              {step.out.slice(0, m)}
+              {(phase === "out" || phase === "hold") && <span className="caret p">▌</span>}
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
