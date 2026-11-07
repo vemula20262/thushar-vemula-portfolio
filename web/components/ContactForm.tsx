@@ -46,7 +46,16 @@ export default function ContactForm() {
         setState({ kind: "sent", name });
         form.reset();
       } else {
-        setState({ kind: "error", msg: data.message || "The message service didn’t accept it." });
+        const raw = String(data.message || "");
+        const needsActivation = /activat/i.test(raw);
+        setState({
+          kind: "error",
+          msg: needsActivation
+            ? "The form is waiting for a one-time activation by the site owner, so this message wasn’t delivered yet."
+            : raw
+              ? `The message service replied: “${raw}”`
+              : "The message service didn’t accept it.",
+        });
       }
     } catch {
       setState({ kind: "error", msg: "Couldn’t reach the message service." });
