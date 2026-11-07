@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
-import { profile } from "@/lib/data";
+import { useEffect, useState } from "react";
+import { SITE_URL, profile } from "@/lib/data";
 
 const TOPICS = ["Job opportunity", "Internship", "Project idea", "Just saying hi"];
 type State = { kind: "idle" } | { kind: "sending" } | { kind: "sent"; name: string } | { kind: "error"; msg: string };
@@ -8,6 +8,15 @@ type State = { kind: "idle" } | { kind: "sending" } | { kind: "sent"; name: stri
 export default function ContactForm() {
   const [state, setState] = useState<State>({ kind: "idle" });
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    if (q.get("sent") === "1") {
+      setState({ kind: "sent", name: "" });
+      window.history.replaceState(null, "", window.location.pathname + "#contact");
+      document.getElementById("contact")?.scrollIntoView();
+    }
+  }, []);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -25,48 +34,20 @@ export default function ContactForm() {
     if (Object.keys(errs).length) return;
 
     setState({ kind: "sending" });
-    try {
-      const res = await fetch(`https://formsubmit.co/ajax/${profile.email}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          name,
-          email,
-          phone: String(fd.get("phone") || ""),
-          topic: String(fd.get("topic") || ""),
-          message,
-          _subject: `Portfolio: ${String(fd.get("topic") || "New message")} from ${name}`,
-          _template: "table",
-          _replyto: email,
-          _captcha: "false",
-        }),
-      });
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && String(data.success) === "true") {
-        setState({ kind: "sent", name });
-        form.reset();
-      } else {
-        const raw = String(data.message || "");
-        const needsActivation = /activat/i.test(raw);
-        setState({
-          kind: "error",
-          msg: needsActivation
-            ? "The form is waiting for a one-time activation by the site owner, so this message wasn’t delivered yet."
-            : raw
-              ? `The message service replied: “${raw}”`
-              : "The message service didn’t accept it.",
-        });
-      }
-    } catch {
-      setState({ kind: "error", msg: "Couldn’t reach the message service." });
-    }
+    // Plain form POST to FormSubmit: no cross-site fetch, so browser privacy tools and extensions can't block it.
+    // FormSubmit then redirects back here with ?sent=1.
+    const subject = form.querySelector<HTMLInputElement>('input[name="_subject"]');
+    if (subject) subject.value = `Portfolio: ${String(fd.get("topic") || "New message")} from ${name}`;
+    const replyto = form.querySelector<HTMLInputElement>('input[name="_replyto"]');
+    if (replyto) replyto.value = email;
+    form.submit();
   }
 
   if (state.kind === "sent") {
     return (
       <div className="form" role="status" aria-live="polite">
         <span className="mono" style={{ fontSize: 13, color: "var(--blue)" }}>200 OK</span>
-        <h3 style={{ margin: 0, fontFamily: "var(--display)", fontSize: 28 }}>Thanks, {state.name}! Message sent.</h3>
+        <h3 style={{ margin: 0, fontFamily: "var(--display)", fontSize: 28 }}>Thanks{state.name ? `, ${state.name}` : ""}! Message sent.</h3>
         <p style={{ margin: 0, color: "var(--muted)", lineHeight: 1.55 }}>
           It’s in my inbox now. I usually reply within a day or two at the email you gave.
         </p>
@@ -79,7 +60,12 @@ export default function ContactForm() {
 
   const busy = state.kind === "sending";
   return (
-    <form className="form" onSubmit={onSubmit} noValidate aria-label="Contact form">
+    <form className="form" onSubmit={onSubmit} noValidate aria-label="Contact form" action={`https://formsubmit.co/${profile.email}`} method="POST">
+      <input type="hidden" name="_subject" value="New portfolio contact" />
+      <input type="hidden" name="_replyto" value="" />
+      <input type="hidden" name="_template" value="table" />
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value={`${SITE_URL}/?sent=1#contact`} />
       <span className="mono" style={{ fontSize: 13, color: "var(--blue)" }}>POST /say-hello</span>
       <input type="text" name="_honey" tabIndex={-1} autoComplete="off" style={{ display: "none" }} aria-hidden="true" />
       <div className="two">
