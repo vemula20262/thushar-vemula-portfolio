@@ -20,9 +20,6 @@ export default function Portrait() {
         >
           <img src="/assets/thushar-portrait-900.jpg" alt="Thushar Reddy Vemula smiling in a light blue shirt" width={900} height={900} fetchPriority="high" />
         </motion.div>
-        <span className="spark s1" aria-hidden="true" />
-        <span className="spark s2" aria-hidden="true" />
-        <span className="spark s3" aria-hidden="true" />
       </motion.div>
       <motion.div
         className="term-wrap"

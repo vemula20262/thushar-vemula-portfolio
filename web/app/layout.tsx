@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   authors: [{ name: profile.name, url: SITE_URL }],
   creator: profile.name,
   keywords: ["Thushar Reddy Vemula", "Thushar Vemula", "Tushar Reddy Vemula", "software engineer", "backend", "applied AI", "Arizona State University", "Tempe"],
-  alternates: { canonical: "/" },
+  alternates: { canonical: `${SITE_URL}/` },
   robots: { index: true, follow: true },
   icons: { icon: "/favicon.svg" },
   verification: { google: "2SEVJqTEPHD6s0RPgVpwUwx6wa1NyLZgy7S21W7s-hI" },
