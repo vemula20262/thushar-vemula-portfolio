@@ -58,3 +58,6 @@ body{background:linear-gradient(115deg,#fff8e8 0%,#faf7ee 45%,#f1eaf7 100%);back
 
 /* Favor real interfaces; text cards for projects without verified captures. */
 .availability{border:0;padding:0;margin:0 0 20px;font-size:14px;color:#526455}.project-detail-card:not(:has(.project-visual)){padding-top:28px}.project-detail-card .project-visual{object-fit:contain;aspect-ratio:auto}.screenshot-credit{font-size:11px;line-height:1.5;color:#657069;margin-bottom:16px}.project-detail-card:has(img[src$="citytraffic-real.jpg"]){grid-column:1/-1}.project-detail-card:has(img[src$="citytraffic-real.jpg"]) .project-visual{max-height:560px;background:#0c1220;object-fit:contain}
+
+/* Equal project image treatment: screenshots or bespoke project marks. */
+.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.project.wide{grid-column:auto}.project-detail-card:has(img[src$="citytraffic-real.jpg"]){grid-column:auto}.project-detail-card .project-visual,.project-detail-card:has(img[src$="citytraffic-real.jpg"]) .project-visual{width:100%;height:auto;max-height:none;aspect-ratio:9/5;object-fit:contain;background:#eaece5}.project-detail-card:has(.project-visual){padding-top:0}.project .art.real-art img{aspect-ratio:9/5;object-fit:contain;background:#eaece5}@media(max-width:760px){.project-grid{grid-template-columns:1fr}}
