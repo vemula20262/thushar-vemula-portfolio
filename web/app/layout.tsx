@@ -17,7 +17,10 @@ export const metadata: Metadata = {
   keywords: ["Thushar Reddy Vemula", "Thushar Vemula", "Tushar Reddy Vemula", "software engineer", "backend", "applied AI", "Arizona State University", "Tempe"],
   alternates: { canonical: `${SITE_URL}/` },
   robots: { index: true, follow: true },
-  icons: { icon: "/favicon.svg" },
+  icons: {
+    icon: [{ url: "/favicon.svg?v=2", type: "image/svg+xml" }, { url: "/favicon.ico?v=2", sizes: "48x48" }, { url: "/icon-192.png?v=2", sizes: "192x192", type: "image/png" }],
+    apple: [{ url: "/apple-touch-icon.png?v=2", sizes: "180x180" }],
+  },
   verification: { google: "2SEVJqTEPHD6s0RPgVpwUwx6wa1NyLZgy7S21W7s-hI" },
   openGraph: {
     type: "profile",
