@@ -1,7 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
-  "buildCommand": "python3 build.py",
-  "installCommand": "",
-  "outputDirectory": "dist"
+  "installCommand": "cd web && npm ci",
+  "buildCommand": "cd web && npm run build",
+  "outputDirectory": "web/out",
+  "redirects": [
+    { "source": "/projects/:slug*", "destination": "/#work", "permanent": true },
+    { "source": "/demos/:path*", "destination": "/#work", "permanent": true },
+    { "source": "/resume", "destination": "/resume.html", "permanent": true }
+  ]
 }
