@@ -23,8 +23,10 @@ export type AnimName =
   | "court"
   | "microbiome";
 
+export type Category = "ai" | "cloud" | "sys" | "data";
 export type Project = {
   slug: string;
+  cat?: Category;
   title: string;
   tag: string;
   label: "real" | "live" | "sim";
@@ -104,6 +106,7 @@ export const featured: Project[] = [
 export const more: Project[] = [
   {
     slug: "carbon",
+    cat: "ai",
     title: "Carbon Cruncher AI",
     tag: "project logo · mlh hackathon",
     label: "real",
@@ -115,6 +118,7 @@ export const more: Project[] = [
   },
   {
     slug: "citytraffic",
+    cat: "cloud",
     title: "CityTraffic NLQ",
     tag: "team project · data",
     label: "real",
@@ -125,6 +129,7 @@ export const more: Project[] = [
   },
   {
     slug: "federated",
+    cat: "cloud",
     title: "Federated Learning & Edge",
     tag: "distributed ml · edge · 100/100",
     label: "sim",
@@ -135,6 +140,7 @@ export const more: Project[] = [
   },
   {
     slug: "compiler",
+    cat: "sys",
     title: "Polynomial Compiler",
     tag: "languages · c++",
     label: "sim",
@@ -144,6 +150,7 @@ export const more: Project[] = [
   },
   {
     slug: "cache",
+    cat: "sys",
     title: "Multicore Cache Coherence",
     tag: "computer architecture",
     label: "sim",
@@ -154,6 +161,7 @@ export const more: Project[] = [
   },
   {
     slug: "robot",
+    cat: "sys",
     title: "Robot Path Planning",
     tag: "robotics · team project",
     label: "sim",
@@ -164,6 +172,7 @@ export const more: Project[] = [
   },
   {
     slug: "mailr",
+    cat: "data",
     title: "Mailr",
     tag: "project banner · contribution",
     label: "real",
@@ -175,6 +184,7 @@ export const more: Project[] = [
   },
   {
     slug: "court",
+    cat: "data",
     title: "CourtCase Extractor",
     tag: "data automation · sample rows",
     label: "sim",
@@ -185,6 +195,7 @@ export const more: Project[] = [
   },
   {
     slug: "microbiome",
+    cat: "data",
     title: "Microbiome Informatics",
     tag: "bioinformatics · b.tech thesis",
     label: "sim",
@@ -253,3 +264,11 @@ export const techLabel: Record<string, string> = {
   django: "Django", flask: "Flask", playwright: "Playwright", supabase: "Supabase", langchain: "LangChain", redis: "Redis",
   dynamodb: "DynamoDB", pandas: "Pandas", numpy: "NumPy", git: "Git", githubactions: "GitHub Actions", linux: "Linux",
 };
+
+export const categories: { id: "all" | Category; label: string }[] = [
+  { id: "all", label: "All" },
+  { id: "ai", label: "AI & Agents" },
+  { id: "cloud", label: "Cloud & Distributed" },
+  { id: "sys", label: "Systems" },
+  { id: "data", label: "Data & Web" },
+];

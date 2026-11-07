@@ -2,7 +2,9 @@ import Header from "@/components/Header";
 import Portrait from "@/components/Portrait";
 import Reveal from "@/components/Reveal";
 import ProjectCard from "@/components/ProjectCard";
-import { featured, more, roles, stackGroups, marqueeA, marqueeB, techLabel, profile } from "@/lib/data";
+import MoreProjects from "@/components/MoreProjects";
+import ContactForm from "@/components/ContactForm";
+import { featured, roles, stackGroups, marqueeA, marqueeB, techLabel, profile } from "@/lib/data";
 
 function Marquee({ items, dir, lime }: { items: string[]; dir: "l" | "r"; lime?: boolean }) {
   const loop = [...items, ...items];
@@ -101,15 +103,7 @@ export default function Home() {
               ))}
             </div>
             <h3 className="subhead">More projects</h3>
-            <div className="more-grid">
-              {more.map((p, i) => (
-                <Reveal key={p.slug} delay={0.05 * (i % 3)} style={{ display: "flex" }}>
-                  <div style={{ width: "100%", display: "flex" }}>
-                    <ProjectCard p={p} small />
-                  </div>
-                </Reveal>
-              ))}
-            </div>
+            <MoreProjects />
           </div>
         </section>
 
@@ -250,28 +244,7 @@ export default function Home() {
                   <span><b>location</b>{profile.location}</span>
                 </div>
               </div>
-              <form className="form" action={`https://formsubmit.co/${profile.email}`} method="POST" aria-label="Contact form">
-                <span className="mono" style={{ fontSize: 13, color: "var(--blue)" }}>POST /say-hello</span>
-                <input type="hidden" name="_subject" value="New portfolio contact" />
-                <input type="hidden" name="_template" value="table" />
-                <input type="text" name="_honey" tabIndex={-1} autoComplete="off" style={{ display: "none" }} aria-hidden="true" />
-                <div className="two">
-                  <label>Name<input name="name" type="text" required maxLength={100} placeholder="Your name" autoComplete="name" /></label>
-                  <label>Email<input name="email" type="email" required maxLength={150} placeholder="you@company.com" autoComplete="email" /></label>
-                </div>
-                <label><span>Phone <span className="optional">(optional)</span></span><input name="phone" type="tel" maxLength={30} placeholder="+1 555 123 4567" autoComplete="tel" /></label>
-                <fieldset className="topics">
-                  <legend>What’s it about?</legend>
-                  {["Job opportunity", "Internship", "Project idea", "Just saying hi"].map((tp, i) => (
-                    <label key={tp}>
-                      <input type="radio" name="topic" value={tp} defaultChecked={i === 0} />
-                      <span className="chip">{tp}</span>
-                    </label>
-                  ))}
-                </fieldset>
-                <label>Message<textarea name="message" required maxLength={2000} placeholder="Hi Thushar, I’d love to talk about…" /></label>
-                <button type="submit" className="btn btn-blue" style={{ alignSelf: "flex-start", boxShadow: "4px 4px 0 var(--lime)" }}>Send message →</button>
-              </form>
+              <ContactForm />
             </Reveal>
           </div>
         </section>
