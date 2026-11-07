@@ -51,7 +51,7 @@ export const featured: Project[] = [
         href: "https://drive.google.com/drive/folders/1x_2qVAZMDhQYZL67fGum5WOdTqex_FG1?usp=drive_link",
       },
     ],
-    visual: { kind: "image", src: "/assets/forma-real.png", alt: "Forma voice agent interface running locally" },
+    visual: { kind: "image", src: "/assets/forma-real-hd.jpg", alt: "Forma voice agent interface running locally" },
   },
   {
     slug: "clickless",
@@ -102,6 +102,17 @@ export const featured: Project[] = [
 ];
 
 export const more: Project[] = [
+  {
+    slug: "carbon",
+    title: "Carbon Cruncher AI",
+    tag: "project logo · mlh hackathon",
+    label: "real",
+    blurb: "Spots household waste in a photo with a custom MobileNet model, estimates its carbon footprint and suggests greener swaps.",
+    stack: ["Python", "TensorFlow", "MobileNet", "GenAI"],
+    repo: `${GH}/Hackathon_MLH`,
+    links: [{ label: "Demo video", href: "https://youtu.be/4_E2qDs5Qcc" }],
+    visual: { kind: "image", src: "/assets/carbon-cruncher.jpg", alt: "Carbon Cruncher AI project logo" },
+  },
   {
     slug: "citytraffic",
     title: "CityTraffic NLQ",
